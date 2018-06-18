@@ -1,2 +1,12 @@
+# Idea, official support suggests ignoring only a few files (https://intellij-support.jetbrains.com/hc/en-us/articles/206544839-How-to-manage-projects-under-Version-Control-Systems)
+# but with Scala and SBT there's a load of junk so just ignore everything
+.idea
+
+# Scala
 *.class
 *.log
+
+# SBT
+target/
+.cache
+
