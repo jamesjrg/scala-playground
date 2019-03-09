@@ -1,4 +1,4 @@
-name := "redbook"
+name := "playground"
 
 version := "0.1"
 
