@@ -67,8 +67,22 @@ object Option {
   def sequenceExplicitlyRecursive[A](a: List[Option[A]]): Option[List[A]] =
     a match {
       case Nil => Some(Nil)
-      case h :: t => h flatMap (hh => sequence(t) map (hh :: _))
+      case h :: t => h flatMap (hh => sequenceExplicitlyRecursive(t) map (hh :: _))
     }
 
-  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = ???
+  def traverseWithImmediateShortCircuit[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] =
+    a.foldRight[Option[List[B]]](Some(Nil))((a, acc) => acc match {
+    case None => None
+    case Some(list) =>
+      val bOpt = f(a)
+      bOpt match {
+        case None => None
+        case Some(b) => Some(b :: list)
+      }
+    })
+
+  def traverseWithFoldAndMap2[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] =
+    a.foldRight[Option[List[B]]](Some(Nil))((a, acc) => map2(f(a), acc)(_ :: _))
+
+
 }
