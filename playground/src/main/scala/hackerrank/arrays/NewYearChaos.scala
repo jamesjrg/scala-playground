@@ -6,13 +6,16 @@ import io.StdIn.readLine
 object Solution {
 
   def minimumBribes(arr: Array[Int]): Option[Int] = {
-    ((Some(0): Option[Int]) /: arr.zipWithIndex) {
+    ((Some(0): Option[Int]) /: arr.view.zipWithIndex) {
       case (maybeState, (item, index)) =>
-        val oneIndexed = index + 1
-        val numberOfPassingPeople = arr.view.take(index).count(_ > item)
-        maybeState.flatMap(state =>
-          if (item - oneIndexed > 2) None else Some(numberOfPassingPeople + state)
-        )
+        maybeState.flatMap(state => {
+          val oneIndexed = index + 1
+
+          if (item - oneIndexed > 2) None else {
+            val numberOfPassingPeople = arr.view.take(index).count(_ > item)
+            Some(numberOfPassingPeople + state)
+          }
+        })
     }
   }
 

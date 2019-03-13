@@ -1,4 +1,4 @@
-package warmup
+package hackerrank.arrays
 
 import org.scalatest.FlatSpec
 import arrays.newyearchaos.Solution

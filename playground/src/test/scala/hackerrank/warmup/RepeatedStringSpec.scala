@@ -1,4 +1,4 @@
-package warmup
+package hackerrank.warmup
 
 import org.scalatest.FlatSpec
 import warmup.repeatedstring.Solution
