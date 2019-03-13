@@ -1,10 +1,17 @@
 import scala.io.Source
 
+def using[A <: { def close(): Unit }, B](resource: A)(f: A => B): B =
+    try {
+      f(resource)
+    } finally {
+      resource.close()
+    }
+
 def fileToArray(filename: String) = {
-    val bufferedSource = Source.fromFile(filename)
-    val arr = bufferedSource.getLines.toArray
-    bufferedSource.close
-    arr
+    using (Source.fromFile(filename)) {
+      bufferedSource =>
+        bufferedSource.getLines.toArray
+    }
 }
 
 
