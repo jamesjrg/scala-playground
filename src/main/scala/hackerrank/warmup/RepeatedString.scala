@@ -14,7 +14,7 @@ object Solution {
 
   }
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]) = {
     val input = readLine
     val charCount = readLine.trim.toLong
 

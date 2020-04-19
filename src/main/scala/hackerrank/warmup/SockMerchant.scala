@@ -12,7 +12,7 @@ object Solution {
       .foldLeft(0)((acc, groupCount) => acc + groupCount / 2)
   }
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]) = {
     val nSocks = readLine.toInt
     val socks = readLine.split(' ').map(_.toInt)
 

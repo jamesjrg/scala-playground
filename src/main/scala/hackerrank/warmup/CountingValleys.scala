@@ -21,7 +21,7 @@ object Solution {
     result._3
   }
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]) = {
     val nSteps = readLine.toInt
     val path = readLine.trim.toArray
 

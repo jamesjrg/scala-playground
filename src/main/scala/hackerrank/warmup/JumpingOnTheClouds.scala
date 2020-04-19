@@ -16,7 +16,7 @@ object Solution {
     inner(clouds.tail, 0)
   }
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]) = {
     val nClouds = readLine.toInt
     val clouds = readLine.trim.split(' ').map(x => if (x == "1") true else false).toList
 

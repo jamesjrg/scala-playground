@@ -22,7 +22,7 @@ object Solution {
     .max
   }
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]) = {
     val arr = io.Source.stdin.getLines().map(_.split(' ').map(_.toInt).toArray).toArray
 
     val result = solve(arr)
