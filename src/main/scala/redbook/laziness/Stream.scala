@@ -1,4 +1,4 @@
-package fpinscala.laziness
+package redbook.laziness
 
 import Stream._
 trait Stream[+A] {
@@ -17,11 +17,52 @@ trait Stream[+A] {
     case Empty => None
     case Cons(h, t) => if (f(h())) Some(h()) else t().find(f)
   }
-  def take(n: Int): Stream[A] = ???
 
-  def drop(n: Int): Stream[A] = ???
+  def toList(): List[A] = foldRight(Nil:List[A])(_ :: _)
 
-  def takeWhile(p: A => Boolean): Stream[A] = ???
+  // a fast alternative from the answer sheet
+  def toListFast: List[A] = {
+    val buf = new collection.mutable.ListBuffer[A]
+    @annotation.tailrec
+    def go(s: Stream[A]): List[A] = s match {
+      case Cons(h,t) =>
+        buf += h()
+        go(t())
+      case _ => buf.toList
+    }
+    go(this)
+  }
+
+  // my version, explicitly passes thunks to Cons and will evaluate one more t() than necessary when n == 1
+  def takeV1(n: Int): Stream[A] = if (n == 0) empty else this match {
+    case Empty => Empty: Stream[A]
+    case Cons(h, t) => Cons(h, () => t().takeV1(n - 1))
+  }
+
+  // from the answer sheet, uses cons smart constructor and avoids extra evaluation when n == 1
+  def take(n: Int): Stream[A] = this match {
+    case Cons(h, t) if n > 1 => cons(h(), t().take(n - 1))
+    case Cons(h, _) if n == 1 => cons(h(), empty)
+    case _ => empty
+  }
+
+  // my version
+  def dropV1(n: Int): Stream[A] = if (n == 0) this else this match {
+    case Empty => empty
+    case Cons(h, t) => t().dropV1(n - 1)
+  }
+
+  // from the answer sheet
+  @annotation.tailrec
+  final def drop(n: Int): Stream[A] = this match {
+    case Cons(_, t) if n > 0 => t().drop(n - 1)
+    case _ => this
+  }
+
+  def takeWhile(p: A => Boolean): Stream[A] = this match {
+    case Cons(h, t) if p(h()) => cons(h(), t().takeWhile(p))
+    case _ => empty
+  }
 
   def forAll(p: A => Boolean): Boolean = ???
 
