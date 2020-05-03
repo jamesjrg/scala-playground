@@ -1,4 +1,4 @@
-package errorhandling
+package redbook.errorhandling
 
 
 import scala.{Option => _, Some => _, Either => _, _} // hide std library `Option`, `Some` and `Either`, since we are writing our own in this chapter
@@ -81,8 +81,10 @@ object Option {
       }
     })
 
-  def traverseWithFoldAndMap2[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] =
+  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] =
     a.foldRight[Option[List[B]]](Some(Nil))((a, acc) => map2(f(a), acc)(_ :: _))
 
-
+  def sequenceViaTraverse[A](a: List[Option[A]]): Option[List[A]] = {
+    traverse(a)(identity)
+  }
 }

@@ -1,4 +1,4 @@
-package datastructures
+package redbook.datastructures
 
 sealed trait Tree[+A]
 case class Leaf[A](value: A) extends Tree[A]
@@ -12,12 +12,12 @@ object Tree {
 
   def maximum(t: Tree[Int]): Int = t match {
     case Leaf(value) => value
-    case Branch(left, right) => math.max(maximum(left), maximum(right))
+    case Branch(left, right) => maximum(left) max maximum(right)
   }
 
   def depth[A](t: Tree[A]): Int = t match {
     case Leaf(value) => 0
-    case Branch(left, right) => 1 + math.max(depth(left), depth(right))
+    case Branch(left, right) => 1 + (depth(left) max depth(right))
   }
 
   def map[A, B](t: Tree[A])(f: A => B): Tree[B]  = t match {

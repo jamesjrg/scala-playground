@@ -1,4 +1,4 @@
-package gettingstarted
+package redbook.gettingstarted
 
 import scala.annotation.tailrec
 
